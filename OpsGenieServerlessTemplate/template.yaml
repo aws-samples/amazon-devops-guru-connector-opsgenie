@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  OpsGenieServerlessTemplate
+
+  SAM Template for OpsGenie
+
+Parameters:
+  ApiKey:
+    Type: String
+  Email:
+    Type: String
+  TeamName:
+    Type: String
+
+Resources:
+  Functions:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: Functions
+      Handler: aws.devopsguru.partner.opsgenie.OpsGenie::handleRequest
+      Runtime: java8
+      MemorySize: 512
+      Timeout: 60
+      Architectures:
+        - x86_64
+      Policies:
+        - AmazonDevOpsGuruReadOnlyAccess
+      Environment:
+        Variables:
+          API_KEY: !Ref ApiKey
+          EMAIL: !Ref Email
+          TEAM_NAME: !Ref TeamName
+      Events:
+        DevOpsGuru:
+          Type: EventBridgeRule
+          Properties:
+            Pattern:
+              source: 
+                - "aws.devops-guru"

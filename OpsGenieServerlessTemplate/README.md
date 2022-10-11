@@ -15,6 +15,8 @@ OpsGenie Java API
 https://docs.opsgenie.com/docs/opsgenie-java-api
 http://opsgeniedownloads.s3-website-us-west-2.amazonaws.com/java-sdk-doc/
 
+SAM APP NAME: "DevOpsGuru-OpsGenie-Connector"
+
 INSTRUCTIONS FOR DEPLOYING SAM APP
 
 1. Make sure to fill out all 3 parameters. 

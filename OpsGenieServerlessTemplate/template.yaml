@@ -19,7 +19,7 @@ Resources:
     Properties:
       CodeUri: Functions
       Handler: aws.devopsguru.partner.opsgenie.OpsGenie::handleRequest
-      Runtime: java8
+      Runtime: java11
       MemorySize: 512
       Timeout: 60
       Architectures:

@@ -23,15 +23,33 @@ INSTRUCTIONS FOR DEPLOYING SAM APP
 
 3. Press the deploy button and everything should be functioning properly. 
 
-4. See the below instructions if you want ot customize the alerts to your liking
+4. See the below instructions if you want to customize the alerts to your liking
+
+INSTRUCTIONS FOR APPLYING A USE CASE:
+
+1. Open to the "OpsGenie.java" file
+
+2. At the top you should see an enum called "useCase"
+
+3. Pick one of the enum values that describes the use case you would like and scroll down to the "caseChoice" variable and change its value to useCase.<the use case of your choice>
+
+  Here is a list of the use cases. By default all AllEVENTS  is on. All use cases do insight open/close
+    ALLEVENTS,
+		ANOMALIES,
+		RECOMMENDATIONS,
+		SEVERITYUPGRADED,
+		PROACTIVEANDHIGHONLY,
+		PROACTIVEANDMEDIUMONLY,
+		PROACTIVEANDLOWONLY,
+		REACTIVEANDHIGHONLY,
+		REACTIVEANDMEDIUMONLY,
+		REACTIVEANDLOWONLY,
+
+4. Save your code and do the instructions below in the AFTER YOU CUSTOMIZE YOUR CODE section.
 
 INSTRUCTIONS FOR CUSTOMIZING CODE:
 
 1. Go to the Functions/src/main/java/aws.devopsguru.opsgenie folder and you'll see a "OpsGenie" and "AlertType" file
-
-ENABLE/DISABLE ALERT TYPE
-
--If you want to simply enable/disable certain alert types, go to the "AlertType" file and find the "createAlert" function. Comment out the else if block that corresponds with the alert type you don't want to occur.
 
 CUSTOMIZING ALERT DETAILS
 -IF you would like to customize the details of a specific alert, go to the "AlertType" file and look at the function corresponding to the event trigger you would like to change. There is 1 function for each trigger should be clear to pick out. There are some comments in each section to help generally guide you but depending on what you need please view the following:

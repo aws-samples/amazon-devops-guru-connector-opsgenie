@@ -1,7 +1,7 @@
 # OpsGenieServerlessTemplate
 
 DESCRIPTION: 
-  SAM app for creating OpsGenie Alerts
+  SAM app integration for creating OpsGenie Alerts when DevOpsGuru creates an Insight
 
 DOCUMENTATION
 
@@ -15,17 +15,15 @@ OpsGenie Java API
 https://docs.opsgenie.com/docs/opsgenie-java-api
 http://opsgeniedownloads.s3-website-us-west-2.amazonaws.com/java-sdk-doc/
 
-SAM APP NAME: "DevOpsGuru-OpsGenie-Connector"
+SAM APP NAME: "DevOps-Guru-OpsGenie-Connector"
 
 INSTRUCTIONS FOR DEPLOYING SAM APP
 
 1. Make sure to fill out all 3 parameters. 
 
-2. If you would like to add more then 1 team, please see the comments inside any of the functions at the opsGenieRequest.setTeams() line 
+2. Press the deploy button and everything should be functioning properly. 
 
-3. Press the deploy button and everything should be functioning properly. 
-
-4. See the below instructions if you want to customize the alerts to your liking
+3. See the below instructions if you want to customize the alerts to your liking
 
 INSTRUCTIONS FOR APPLYING A USE CASE:
 
@@ -70,13 +68,13 @@ DEPLOYING THIS CODE AS A NEW SAM APP
 
 Metadata:
   AWS::ServerlessRepo::Application:
-    Name: OpsGenie
-    Description: Creates an Lambda function template to create an OpsGenie alert
-    Author: Arsany Azmy
+    Name: DevOps-Guru-OpsGenie-Connector
+    Description: Creates an Lambda function template to create an OpsGenie alert with an Eventbridge rule attached
+    Author: Amazon DevOps Guru
     SpdxLicenseId: Apache-2.0
     LicenseUrl: // Local path of LICENSE.txt file
     ReadmeUrl: // Local path of README.md file
-    Labels: ['tests']
+    Labels: ['OpsGenie']
     HomePageUrl: https://github.com/aws-samples/amazon-devops-guru-connector-opsgenie
     SemanticVersion: 0.0.1
     SourceCodeUrl: https://github.com/aws-samples/amazon-devops-guru-connector-opsgenie

@@ -12,9 +12,12 @@ public class OpsGenie implements RequestHandler<Map<String, Object>, String> {
 	
 	enum useCase {
 		ALLEVENTS,
+		ALLEVENTSREACTIVE,
+		ALLEVENTSPROACTIVE,
 		ANOMALIES,
 		RECOMMENDATIONS,
 		SEVERITYUPGRADED,
+		RECOMMENDATIONSANDANOMALIES,
 		PROACTIVEANDHIGHONLY,
 		PROACTIVEANDMEDIUMONLY,
 		PROACTIVEANDLOWONLY,
@@ -64,14 +67,23 @@ public class OpsGenie implements RequestHandler<Map<String, Object>, String> {
 			case ALLEVENTS:
 				AlertType.allFeatures(jsonNode);
 				break;
+			case ALLEVENTSREACTIVE:
+				AlertType.allFeaturesReactiveInsights(jsonNode);
+				break;
+			case ALLEVENTSPROACTIVE:
+				AlertType.allFeaturesProactiveInsights(jsonNode);
+				break;
 			case ANOMALIES:
-				AlertType.InsightOpenAndAnomalies(jsonNode);
+				AlertType.insightOpenAndAnomalies(jsonNode);
 				break;
 			case RECOMMENDATIONS:
-				AlertType.InsightOpenAndRecommendations(jsonNode);
+				AlertType.insightOpenAndRecommendations(jsonNode);
 				break;
 			case SEVERITYUPGRADED:
-				AlertType.InsightOpenAndSeverityUpgraded(jsonNode);
+				AlertType.insightOpenAndSeverityUpgraded(jsonNode);
+				break;
+			case RECOMMENDATIONSANDANOMALIES: 
+				AlertType.insightOpenAnomaliesAndRecommendations(jsonNode);
 				break;
 			case PROACTIVEANDHIGHONLY:
 				AlertType.proactiveHighSeverityOnly(jsonNode);

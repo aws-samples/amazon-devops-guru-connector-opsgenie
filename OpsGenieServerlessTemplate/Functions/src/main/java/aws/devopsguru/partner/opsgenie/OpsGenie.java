@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class OpsGenie implements RequestHandler<Map<String, Object>, String> {
 	
-	enum useCase {
+	enum UseCase {
 		ALLEVENTS,
 		ALLEVENTSREACTIVE,
 		ALLEVENTSPROACTIVE,
@@ -54,13 +54,13 @@ public class OpsGenie implements RequestHandler<Map<String, Object>, String> {
 
 		// Change the enum value here for the desired use case. Enum values are listed above.
 		// Example: I want only Recommendations so i change the value to useCase.RECOMMENDATIONS
-		useCase caseChoice = useCase.ALLEVENTS;
+		UseCase caseChoice = UseCase.ALLEVENTS;
 		pickUseCase(caseChoice, jsonNode);
 		
 		return null;
 	}
 
-	public void pickUseCase(useCase caseChoice, JsonNode jsonNode)
+	public void pickUseCase(UseCase caseChoice, JsonNode jsonNode)
 	{
 		switch(caseChoice)
 		{

@@ -273,6 +273,82 @@ public class AlertType {
 		}
 	}
 
+	public static void allFeaturesReactiveInsights(JsonNode input) {
+		
+		// All 5 triggers but only for reactive insights
+		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
+		{
+			if (input.path("detail").path("insightType").asText().equals("REACTIVE"))
+			{
+				AlertType.newInsight(input);
+			}
+		} 
+		else if (input.path("detail").path("messageType").asText().equals("CLOSED_INSIGHT")) 
+		{
+			if (input.path("detail").path("insightType").asText().equals("REACTIVE"))
+			{
+				AlertType.insightClosed(input);
+			}
+		} 
+		else if (input.path("detail").path("messageType").asText().equals("NEW_ASSOCIATION")) 
+		{
+			AlertType.newAssociation(input);
+		} 
+		else if (input.path("detail").path("messageType").asText().equals("NEW_RECOMMENDATION")) 
+		{
+			AlertType.newRecommendation(input);
+		} 
+		else if (input.path("detail").path("messageType").asText().equals("SEVERITY_UPGRADED")) 
+		{
+			if (input.path("detail").path("insightType").asText().equals("REACTIVE"))
+			{
+				AlertType.newSeverity(input);
+			}
+		} 
+		else 
+		{
+			Constants.getLogger().error("Json not parsed properly or messageType is null/incorrect");
+		}
+	}
+
+	public static void allFeaturesProactiveInsights(JsonNode input) {
+		
+		// All 5 triggers but only for reactive insights
+		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
+		{
+			if (input.path("detail").path("insightType").asText().equals("PROACTIVE"))
+			{
+				AlertType.newInsight(input);
+			}
+		} 
+		else if (input.path("detail").path("messageType").asText().equals("CLOSED_INSIGHT")) 
+		{
+			if (input.path("detail").path("insightType").asText().equals("PROACTIVE"))
+			{
+				AlertType.insightClosed(input);
+			}
+		} 
+		else if (input.path("detail").path("messageType").asText().equals("NEW_ASSOCIATION")) 
+		{
+			AlertType.newAssociation(input);
+		} 
+		else if (input.path("detail").path("messageType").asText().equals("NEW_RECOMMENDATION")) 
+		{
+			AlertType.newRecommendation(input);
+		} 
+		else if (input.path("detail").path("messageType").asText().equals("SEVERITY_UPGRADED")) 
+		{
+			if (input.path("detail").path("insightType").asText().equals("PROACTIVE"))
+			{
+				AlertType.newSeverity(input);
+			}
+		} 
+		else 
+		{
+			Constants.getLogger().error("Json not parsed properly or messageType is null/incorrect");
+		}
+	}
+
 	public static void reactiveHighSeverityOnly(JsonNode input) {
 		
 		// FILTER: Insight Open + Insight Closed
@@ -287,7 +363,11 @@ public class AlertType {
 		} 
 		else if (input.path("detail").path("messageType").asText().equals("CLOSED_INSIGHT")) 
 		{
-			AlertType.insightClosed(input);
+			if (input.path("detail").path("insightSeverity").asText().equals("high") && 
+					input.path("detail").path("insightType").asText().equals("REACTIVE"))
+			{
+				AlertType.insightClosed(input);
+			}
 		}
 		
 	}
@@ -297,7 +377,7 @@ public class AlertType {
 		// FILTER: Insight Open + Insight Closed
 		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
 		{
-			// Filter only reactive high severity insights
+			// Filter only reactive medium severity insights
 			if (input.path("detail").path("insightSeverity").asText().equals("medium") && 
 					input.path("detail").path("insightType").asText().equals("REACTIVE"))
 			{
@@ -306,7 +386,11 @@ public class AlertType {
 		} 
 		else if (input.path("detail").path("messageType").asText().equals("CLOSED_INSIGHT")) 
 		{
-			AlertType.insightClosed(input);
+			if (input.path("detail").path("insightSeverity").asText().equals("medium") && 
+					input.path("detail").path("insightType").asText().equals("REACTIVE"))
+			{
+				AlertType.insightClosed(input);
+			}
 		}
 		
 	}
@@ -316,7 +400,7 @@ public class AlertType {
 		// FILTER: Insight Open + Insight Closed
 		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
 		{
-			// Filter only reactive high severity insights
+			// Filter only reactive low severity insights
 			if (input.path("detail").path("insightSeverity").asText().equals("low") && 
 					input.path("detail").path("insightType").asText().equals("REACTIVE"))
 			{
@@ -325,7 +409,11 @@ public class AlertType {
 		} 
 		else if (input.path("detail").path("messageType").asText().equals("CLOSED_INSIGHT")) 
 		{
-			AlertType.insightClosed(input);
+			if (input.path("detail").path("insightSeverity").asText().equals("low") && 
+					input.path("detail").path("insightType").asText().equals("REACTIVE"))
+			{
+				AlertType.insightClosed(input);
+			}
 		}
 		
 	}
@@ -335,7 +423,7 @@ public class AlertType {
 		// FILTER: Insight Open + Insight Closed
 		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
 		{
-			// Filter only reactive high severity insights
+			// Filter only proactive high severity insights
 			if (input.path("detail").path("insightSeverity").asText().equals("high") && 
 					input.path("detail").path("insightType").asText().equals("PROACTIVE"))
 			{
@@ -344,7 +432,11 @@ public class AlertType {
 		} 
 		else if (input.path("detail").path("messageType").asText().equals("CLOSED_INSIGHT")) 
 		{
-			AlertType.insightClosed(input);
+			if (input.path("detail").path("insightSeverity").asText().equals("high") && 
+					input.path("detail").path("insightType").asText().equals("PROACTIVE"))
+			{
+				AlertType.insightClosed(input);
+			}
 		}
 		
 	}
@@ -353,7 +445,7 @@ public class AlertType {
 		// FILTER: Insight Open + Insight Closed
 		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
 		{
-			// Filter only reactive high severity insights
+			// Filter only proactive medium severity insights
 			if (input.path("detail").path("insightSeverity").asText().equals("medium") && 
 					input.path("detail").path("insightType").asText().equals("PROACTIVE"))
 			{
@@ -362,7 +454,11 @@ public class AlertType {
 		} 
 		else if (input.path("detail").path("messageType").asText().equals("CLOSED_INSIGHT")) 
 		{
-			AlertType.insightClosed(input);
+			if (input.path("detail").path("insightSeverity").asText().equals("medium") && 
+					input.path("detail").path("insightType").asText().equals("PROACTIVE"))
+			{
+				AlertType.insightClosed(input);
+			}
 		}
 		
 	}
@@ -372,7 +468,7 @@ public class AlertType {
 		// FILTER: New Insight + Insight Closed
 		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
 		{
-			// Filter only reactive high severity insights
+			// Filter only proactive low severity insights
 			if (input.path("detail").path("insightSeverity").asText().equals("low") && 
 					input.path("detail").path("insightType").asText().equals("PROACTIVE"))
 			{
@@ -381,12 +477,16 @@ public class AlertType {
 		} 
 		else if (input.path("detail").path("messageType").asText().equals("CLOSED_INSIGHT")) 
 		{
-			AlertType.insightClosed(input);
+			if (input.path("detail").path("insightSeverity").asText().equals("low") && 
+					input.path("detail").path("insightType").asText().equals("PROACTIVE"))
+			{
+				AlertType.insightClosed(input);
+			}
 		}
 		
 	}
 	
-	public static void InsightOpenAndRecommendations(JsonNode input) {
+	public static void insightOpenAndRecommendations(JsonNode input) {
 		
 		// FILTER: New Insight + Insight Closed + New Recommendation
 		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
@@ -403,7 +503,7 @@ public class AlertType {
 		}
 	}
 	
-	public static void InsightOpenAndAnomalies(JsonNode input) {
+	public static void insightOpenAndAnomalies(JsonNode input) {
 	
 		// FILTER: New Insight + Insight Closed + New Recommendation
 		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
@@ -420,7 +520,7 @@ public class AlertType {
 		}
 	}
 	
-	public static void InsightOpenAndSeverityUpgraded(JsonNode input) {
+	public static void insightOpenAndSeverityUpgraded(JsonNode input) {
 		
 		// FILTER: New Insight + Insight Closed + New Recommendation
 		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
@@ -434,6 +534,27 @@ public class AlertType {
 		else if (input.path("detail").path("messageType").asText().equals("SEVERITY_UPGRADED")) 
 		{
 			AlertType.newSeverity(input);
+		}
+	}
+
+	public static void insightOpenAnomaliesAndRecommendations(JsonNode input) {
+	
+		// FILTER: New Insight + Insight Closed + New Recommendation + New Anomalies
+		if (input.path("detail").path("messageType").asText().equals("NEW_INSIGHT")) 
+		{
+			AlertType.newInsight(input);
+		} 
+		else if (input.path("detail").path("messageType").asText().equals("CLOSED_INSIGHT")) 
+		{
+			AlertType.insightClosed(input);
+		}
+		else if (input.path("detail").path("messageType").asText().equals("NEW_ASSOCIATION")) 
+		{
+			AlertType.newAssociation(input);
+		}
+		else if (input.path("detail").path("messageType").asText().equals("NEW_RECOMMENDATION")) 
+		{
+			AlertType.newRecommendation(input);
 		}
 	}
 }

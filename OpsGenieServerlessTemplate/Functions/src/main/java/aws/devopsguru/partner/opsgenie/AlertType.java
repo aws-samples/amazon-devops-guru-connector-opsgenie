@@ -56,17 +56,36 @@ public class AlertType {
 		// String for holding all anomaly details
 		String anomalyDetails = "";
 
-		// Add the new anomalies into 1 string
-		for (Iterator<JsonNode> anomalies = input.path("detail").path("anomalies").iterator(); anomalies.hasNext();) {
-
+		// Add the new anomalies to the string
+		for (Iterator<JsonNode> anomalies = input.path("detail").path("anomalies").iterator(); anomalies.hasNext();) 
+		{
 			JsonNode anomaly = anomalies.next();
-			for (Iterator<JsonNode> sourceDetails = anomaly.path("sourceDetails").iterator(); sourceDetails
-					.hasNext();) {
+			for (Iterator<JsonNode> sourceDetails = anomaly.path("sourceDetails").iterator(); sourceDetails.hasNext();) 
+			{
 				JsonNode sourceDetail = sourceDetails.next();
-				anomalyDetails += String.format("Data Source: %s\n" + "Name: %s\n" + "Stat: %s\n\n",
-						sourceDetail.path("dataSource").asText(),
-						sourceDetail.path("dataIdentifiers").path("name").asText(),
-						sourceDetail.path("dataIdentifiers").path("stat").asText());
+				if (sourceDetail.path("dataIdentifiers").path("dimensions").asText().isBlank()) 
+				{
+					anomalyDetails += String.format(
+							"Namespace: %s\n" +
+							"Name: %s\n" +
+							"Stat: %s\n\n",
+							sourceDetail.path("dataIdentifiers").path("namespace").asText(),
+							sourceDetail.path("dataIdentifiers").path("name").asText(),
+							sourceDetail.path("dataIdentifiers").path("stat").asText());
+				} 
+				else 
+				{
+					anomalyDetails += String.format(
+							"Namespace: %s\n" +
+							"Name: %s\n" +
+							"Stat: %s\n" +
+							"Dimensions - %s : %s\n\n",
+							sourceDetail.path("dataIdentifiers").path("namespace").asText(),
+							sourceDetail.path("dataIdentifiers").path("name").asText(),
+							sourceDetail.path("dataIdentifiers").path("stat").asText(),
+							sourceDetail.path("dataIdentifiers").path("dimensions").path("name").asText(),
+							sourceDetail.path("dataIdentifiers").path("dimensions").path("value").asText());
+				}
 			}
 		}
 		
@@ -156,18 +175,34 @@ public class AlertType {
 		}
 
 		// Add the new anomalies to the string
-		for (Iterator<JsonNode> anomalies = input.path("detail").path("anomalies").iterator(); anomalies.hasNext(); ) {
-			
+		for (Iterator<JsonNode> anomalies = input.path("detail").path("anomalies").iterator(); anomalies.hasNext();) 
+		{
 			JsonNode anomaly = anomalies.next();
-			for (Iterator<JsonNode> sourceDetails = anomaly.path("sourceDetails").iterator(); sourceDetails.hasNext(); ) {
+			for (Iterator<JsonNode> sourceDetails = anomaly.path("sourceDetails").iterator(); sourceDetails.hasNext();) 
+			{
 				JsonNode sourceDetail = sourceDetails.next();
-				anomalyDetails += String.format(
-						"Data Source: %s\n" + 
-						"Name: %s\n" + 
-						"Stat: %s\n\n",
-						sourceDetail.path("dataSource").asText(),
-						sourceDetail.path("dataIdentifiers").path("name").asText(),
-						sourceDetail.path("dataIdentifiers").path("stat").asText());
+				if (sourceDetail.path("dataIdentifiers").path("dimensions").asText().isBlank()) {
+					anomalyDetails += String.format(
+							"Namespace: %s\n" + 
+							"Name: %s\n" + 
+							"Stat: %s\n\n",
+							sourceDetail.path("dataIdentifiers").path("namespace").asText(),
+							sourceDetail.path("dataIdentifiers").path("name").asText(),
+							sourceDetail.path("dataIdentifiers").path("stat").asText());
+				} 
+				else 
+				{
+					anomalyDetails += String.format(
+							"Namespace: %s\n" +
+							"Name: %s\n" + 
+							"Stat: %s\n" + 
+							"Dimensions - %s : %s\n\n",
+							sourceDetail.path("dataIdentifiers").path("namespace").asText(),
+							sourceDetail.path("dataIdentifiers").path("name").asText(),
+							sourceDetail.path("dataIdentifiers").path("stat").asText(),
+							sourceDetail.path("dataIdentifiers").path("dimensions").path("name").asText(),
+							sourceDetail.path("dataIdentifiers").path("dimensions").path("value").asText());
+				}
 			}
 		}
 		
@@ -218,9 +253,13 @@ public class AlertType {
 			JsonNode recommendation = it.next();
 			recommendationDetails += String.format(
 					"Name: %s\n" + 
-					"Reason: %s\n\n", 
-					recommendation.path("name").asText(), 
-					recommendation.path("reason").asText());
+					"Description: %s\n" +
+					"Reason: %s\n" +
+					"Link: %s\n\n",
+					recommendation.path("name").asText(),
+					recommendation.path("description").asText(),
+					recommendation.path("reason").asText(),
+					recommendation.path("link").asText());
 		}
 			
 		// Map needed as argument parameter for AddAlertDetailsRequest.setDetails()

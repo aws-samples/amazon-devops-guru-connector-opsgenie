@@ -10,7 +10,7 @@ import com.ifountain.opsgenie.client.swagger.ApiException;
 import com.ifountain.opsgenie.client.swagger.model.AddAlertDetailsRequest;
 import com.ifountain.opsgenie.client.swagger.model.Alert;
 import com.ifountain.opsgenie.client.swagger.model.CreateAlertRequest;
-import com.ifountain.opsgenie.client.swagger.model.DeleteAlertRequest;
+import com.ifountain.opsgenie.client.swagger.model.CloseAlertRequest;
 import com.ifountain.opsgenie.client.swagger.model.GetAlertResponse;
 import com.ifountain.opsgenie.client.swagger.model.Recipient;
 import com.ifountain.opsgenie.client.swagger.model.TeamRecipient;
@@ -132,14 +132,18 @@ public class AlertType {
 	
 	public static void insightClosed (JsonNode input) {
 		
-		// Identify the alert to delete
-		DeleteAlertRequest request = new DeleteAlertRequest();
-		request.setIdentifier(input.path("detail").path("insightId").asText());
-		request.setIdentifierType(DeleteAlertRequest.IdentifierTypeEnum.ALIAS);
-
+		// Identify the alert to close
+		CloseAlertRequest request = new CloseAlertRequest();
+		request.setUser(Constants.getTeamName());
+		request.setNote("Closed Alert");
+		request.setSource("AWS DevOpsGuru");
+		
 		// Alert deletion happens here
 		try {
-			Constants.getOpsGenieClient().deleteAlert(request);
+			Constants.getOpsGenieClient().closeAlert(
+					input.path("detail").path("insightId").asText(),
+					"alias", 
+					request);
 		} catch (ApiException e) {
 			Constants.getLogger().error("Insight failed to close due to: \n", e);
 			e.printStackTrace();
